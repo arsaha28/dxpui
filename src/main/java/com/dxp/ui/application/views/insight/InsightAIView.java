@@ -2,7 +2,6 @@ package com.dxp.ui.application.views.insight;
 
 import com.dxp.ui.application.config.DXPConfiguration;
 import com.dxp.ui.application.load.ImportData;
-import com.dxp.ui.application.model.Transaction;
 import com.dxp.ui.application.model.TransactionML;
 import com.dxp.ui.application.views.MainLayout;
 import com.googlecode.gentyref.TypeToken;
@@ -17,7 +16,6 @@ import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 
 @PageTitle("InsightAI")

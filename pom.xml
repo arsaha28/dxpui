@@ -3,8 +3,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/project/c8cb7ec1-4819-40b9-82d2-8a85431e8e54 -->
-    <groupId>com.travel.application</groupId>
-    <artifactId>travelai</artifactId>
+    <groupId>com.dxp.ui.application</groupId>
+    <artifactId>dxpui</artifactId>
     <name>dxpui</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
