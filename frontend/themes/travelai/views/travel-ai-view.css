@@ -1,0 +1,19 @@
+@media screen and (max-width: 740px) {
+ .travel-ai-view {
+    flex-direction: column-reverse;
+  }
+ .travel-ai-view aside {
+    width: 100% !important;
+    flex-direction: row;
+  }
+ .travel-ai-view aside header {
+    display: none;
+  }
+ .travel-ai-view aside vaadin-tabs {
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+ .travel-ai-view aside vaadin-tabs vaadin-tab.justify-between {
+    justify-content: flex-start;
+  }
+}
