@@ -17,6 +17,9 @@ public class DXPConfiguration {
     @Value("${categorization}")
     private String categorizationEndpoint;
 
+    @Value("${categorizationV2}")
+    private String categorizationEndpointV2;
+
     @Value("${cpa}")
     private String cpaEndpoint;
     public String getCategorizationEndpoint() {
@@ -33,6 +36,10 @@ public class DXPConfiguration {
 
     public void setCpaEndpoint(String cpaEndpoint) {
         this.cpaEndpoint = cpaEndpoint;
+    }
+
+    public String getCategorizationEndpointV2() {
+        return categorizationEndpointV2;
     }
 
 

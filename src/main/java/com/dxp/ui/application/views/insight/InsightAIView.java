@@ -2,14 +2,24 @@ package com.dxp.ui.application.views.insight;
 
 import com.dxp.ui.application.config.DXPConfiguration;
 import com.dxp.ui.application.load.ImportData;
+import com.dxp.ui.application.model.TransactionClassificationRequest;
 import com.dxp.ui.application.model.TransactionML;
 import com.dxp.ui.application.views.MainLayout;
 import com.googlecode.gentyref.TypeToken;
 import com.nimbusds.jose.shaded.gson.Gson;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -38,43 +48,6 @@ public class InsightAIView extends HorizontalLayout {
 
     @Autowired
     private DXPConfiguration dxpConfiguration;
-
-    List<String> places = Arrays.asList("London",
-            "Edinburgh",
-            "Manchester",
-            "Birmingham",
-            "Liverpool",
-            "Glasgow",
-            "Belfast",
-            "Oxford",
-            "Cambridge",
-            "Bristol",
-            "York",
-            "Cardiff",
-            "Brighton",
-            "Bath",
-            "Leeds",
-            "Newcastle upon Tyne",
-            "Sheffield",
-            "Nottingham",
-            "Stratford-upon-Avon",
-            "Canterbury",
-            "Inverness",
-            "St. Andrews",
-            "Aberdeen",
-            "Southampton",
-            "Dundee",
-            "Plymouth",
-            "Windsor",
-            "Chester",
-            "Swansea",
-            "Portsmouth");
-
-    private String randomPlace(){
-        int index = (int)(Math.random() * places.size());
-        return places.get(index);
-
-    }
 
     public InsightAIView() {
 
@@ -115,6 +88,8 @@ public class InsightAIView extends HorizontalLayout {
         buttonLayout.add(importData);
         buttonLayout.add(categorize);
         buttonLayout.add(cpa);
+        buttonLayout.add(checkNewTransaction());
+
 
         VerticalLayout txtLayout = new VerticalLayout();
         txtLayout.addClassNames(LumoUtility.Flex.AUTO, LumoUtility.Overflow.HIDDEN);
@@ -124,6 +99,42 @@ public class InsightAIView extends HorizontalLayout {
         container.add(txtLayout,buttonLayout);
         add(container);
     }
+
+    private Button checkNewTransaction(){
+        Dialog dialog = new Dialog();
+        dialog.setWidth("1000");
+        dialog.setWidth("1000");
+        dialog.setHeaderTitle("Transaction Classification");
+
+        TextField merchant = new TextField("Merchant");
+        TextField categoryCode = new TextField("MCC");
+        TextField amount = new TextField("Amount");
+        TextField location = new TextField("location");
+        TextField category = new TextField("category");
+
+        FormLayout formLayout = new FormLayout(merchant,categoryCode,amount,location,category);
+        dialog.add(formLayout);
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("500px", 2));
+        formLayout.setColspan(merchant, 1);
+
+        Button saveButton = new Button("Check", e -> {
+            TransactionClassificationRequest  request = new TransactionClassificationRequest(amount.getValue(),merchant.getValue(),location.getValue(),categoryCode.getValue());
+            new Gson().toJson(request);
+            ResponseEntity<String> responseEntity = restTemplate
+                    .postForEntity(dxpConfiguration.getCategorizationEndpointV2(),new Gson().toJson(Arrays.asList(request)),String.class);
+            category.setValue(responseEntity.getBody());
+            System.out.println(responseEntity.getBody());
+        });
+        Button cancelButton = new Button("Cancel", e -> dialog.close());
+        dialog.getFooter().add(cancelButton);
+        dialog.getFooter().add(saveButton);
+        Button eligibility = new Button("Eligibility", e -> dialog.open());
+        eligibility.setEnabled(true);
+        return eligibility;
+    }
+
     private Button getButton(Grid<TransactionML> grid,String endpoint,String label) {
         Button button = new Button(label);
         button.setEnabled(true);

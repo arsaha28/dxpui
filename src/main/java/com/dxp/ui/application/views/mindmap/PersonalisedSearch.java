@@ -78,8 +78,6 @@ public class PersonalisedSearch extends HorizontalLayout {
             };
         });
 
-        // Layouting
-
         VerticalLayout chatContainer = new VerticalLayout();
         chatContainer.addClassNames(Flex.AUTO, Overflow.HIDDEN);
 
